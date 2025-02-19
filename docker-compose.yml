@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  db:
+    image: postgres:13
+    container_name: db
+    environment:
+      - POSTGRES_DB=ecommerce
+      - POSTGRES_PASSWORD=itic123
+      - POSTGRES_USER=itic_user
+    ports:
+      - "5433:5432"
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin.admin@xtec.cat
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+volumes:
+  local_pgdata:
+  pgadmin-data:
