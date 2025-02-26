@@ -1,2 +1,5 @@
 # django_act15
-![Inici de l'actvitat, inici projecte](/django_act15/img/image.png)
+## Inicio projecte botiga
+![img.png](img/img.png)
+
+![img_1.png](img_1.png)
