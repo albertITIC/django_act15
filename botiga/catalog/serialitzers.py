@@ -1,7 +1,8 @@
+# Los serializers convierten objetos de Django en JSON para la API.
 from rest_framework import serializers
 from .models import Product
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = '__all__' 
+        fields = '__all__'  # Incluir todos los campos del modelo
