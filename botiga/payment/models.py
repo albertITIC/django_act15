@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from orders.models import Order
+from ..orders.models import Order
 
 class Payment(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE)
