@@ -1,10 +1,8 @@
 from django.db import models
-from orders.models import CustomUser
 from catalog.models import Product
 
-# Create your models here.
 class Cart(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey("orders.CustomUser", on_delete=models.CASCADE)  # Referencia en cadena
     created_at = models.DateTimeField(auto_now_add=True) 
 
 class CartItem(models.Model):

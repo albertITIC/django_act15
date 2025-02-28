@@ -38,10 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog', # App catalog
-    'rest_framework', # Django rest Framework
-    'payment',  # App payment
-    'cart',  # App cart -- victor
-    'orders',  # App orders -- victor
+    'rest_framework'  # Django rest Framework
+
 ]
 
 MIDDLEWARE = [
@@ -81,11 +79,11 @@ WSGI_APPLICATION = 'botiga.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecommerce',
-        'USER': 'itic_user',
-        'PASSWORD': 'itic123',
+        'NAME': 'django',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
 
