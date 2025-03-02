@@ -1,4 +1,3 @@
-# Los serializers convierten objetos de Django en JSON para la API.
 from rest_framework import serializers
 from .models import Product
 
