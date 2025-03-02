@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'cart',
+    'catalog',
+    'payment',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -76,13 +81,16 @@ WSGI_APPLICATION = 'botiga.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django',
+        'NAME': 'ecommerce',
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+# Modelo usuario personalizado
+AUTH_USER_MODEL = 'orders.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
