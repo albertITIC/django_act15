@@ -1,5 +1,5 @@
 from django.db import models
-from catalog.models import Product  
+from catalog.models import Product
 
 class CustomUser(models.Model):
     name = models.CharField(max_length=100)
