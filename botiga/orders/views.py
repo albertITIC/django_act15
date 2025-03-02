@@ -52,3 +52,22 @@ def unfinished_carts(request):
         cart_list.append(cart_data)
 
     return JsonResponse({"unfinished_carts": cart_list}, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+def delete_unfinished_cart(request, pk):
+    """
+    Eliminar un carrito no finalizado (con estado 'active' o 'pending').
+    """
+    try:
+        cart = Cart.objects.get(id=pk)
+    except Cart.DoesNotExist:
+        return JsonResponse({"error": "Carrito no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Verificar si el carrito está en un estado que puede ser eliminado
+    if cart.status not in ['active', 'pending']:
+        return JsonResponse({"error": "El carrito no puede ser eliminado porque ya está finalizado"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Eliminar el carrito
+    cart.delete()
+
+    return JsonResponse({"message": "Carrito eliminado con éxito"}, status=status.HTTP_204_NO_CONTENT)
