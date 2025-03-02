@@ -5,6 +5,7 @@ from rest_framework import status
 from catalog.models import Product
 from .models import Cart, CartItem
 from .serializers import CartSerializer, CartItemSerializer
+from orders.models import Order, OrderItem
 # Create your views here.
 
 @api_view(['GET'])
@@ -90,3 +91,57 @@ def update_quantity(request, pk):
             return JsonResponse({"message": "Producto eliminado del carrito"}, status=status.HTTP_200_OK)
     except CartItem.DoesNotExist:
         return JsonResponse({"error": "El producto no está en el carrito"}, status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['POST'])
+def checkout(request, pk):
+    """
+    Gestionar la compra del carrito y crear una orden.
+    """
+    try:
+        cart = Cart.objects.get(id=pk)
+    except Cart.DoesNotExist:
+        return JsonResponse({"error": "Carrito no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Verificar si el carrito está vacío
+    if not cart.items.exists():
+        return JsonResponse({"error": "El carrito está vacío"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Crear una orden a partir del carrito
+    order = Order.objects.create(
+        user=request.user if request.user.is_authenticated else None,  # Si está autenticado, asociamos el usuario
+        cart=cart,
+        status='pending',  # Estado inicial de la orden
+    )
+
+    # Calcular el total de la orden y agregar los productos a la orden
+    total_price = 0.0  
+    for cart_item in cart.items.all():
+        product = cart_item.product
+        quantity = cart_item.quantity
+        item_total = product.price * quantity 
+
+        # Crear un OrderItem para cada producto en el carrito
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=quantity
+        )
+
+        total_price += item_total
+
+    # Actualizar el total de la orden
+    order.total_price = total_price
+    order.save()
+
+    # Marcar el carrito como "comprado" o cerrado
+    cart.status = 'purchased'
+    cart.save()
+
+    # Crear una respuesta con los detalles de la orden
+    return JsonResponse({
+        "message": "Compra realizada con éxito",
+        "order_id": order.id,
+        "total_price": str(order.total_price),
+        "status": order.status,
+    }, status=status.HTTP_201_CREATED)
