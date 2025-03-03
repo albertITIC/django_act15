@@ -1,11 +1,10 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import ProductViewSet
-
-# Crear un router para generar automáticamente las rutas de la API
-router = DefaultRouter()
-router.register(r'products', ProductViewSet)  # Registrar el ViewSet con la URL 'products'
+from . import views
 
 urlpatterns = [
-    path('api/', include(router.urls)),  # Incluir todas las rutas generadas por el router
+    path('products/', views.get_all_products, name='list_products'),  # Obtener todos los productos
+    path('products/create/', views.create_product, name='create_product'),  # Crear un producto
+    path('products/<int:pk>/', views.get_product_by_id, name='get_product'),  # Obtener un producto
+    path('products/<int:pk>/update/', views.update_product, name='update_product'),  # Actualizar producto
+    path('products/<int:pk>/delete/', views.delete_product, name='delete_product'),  # Eliminar producto
 ]
