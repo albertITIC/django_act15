@@ -6,4 +6,5 @@ urlpatterns = [
     path('catalog/', include('catalog.urls')),
     path('botiga/', include('cart.urls')),
     path('orders/', include('orders.urls')),
+    path('payment/', include('payment.urls')),
 ]
